@@ -1,8 +1,7 @@
 import React, { Fragment, useState } from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 const login = () => {
+  const [redirect, setRedirect] = useState(false)
 
   const [userRegristation, setUserRegistration] = useState({
     email : "",
@@ -17,13 +16,29 @@ const login = () => {
     setUserRegistration({...userRegristation, [name] : value})
   }
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async(e) =>{
     e.preventDefault();
 
     const newRecord={...userRegristation, id : new Date().getTime().toString()}
-    console.log(newRecord)
+    //console.log(newRecord)
+
+    await fetch('http://localhost:8000/api/login/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify(newRecord)
+
+     })
+
+     //const content = await response.json();
+     //console.log(content);
 
     setUserRegistration({email:"",username:""});
+    setRedirect(true);
+  }
+
+  if(redirect){
+    return <Navigate to="/home"/>
   }
 
 
@@ -51,7 +66,7 @@ const login = () => {
                 </div>
                 
                 <div className="mt-6">
-                  <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register</button>
+                  <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
                 </div>
 
                 <p className='mt-1'>Don't have an account ?  <Link to="/signup"><span className='text-blue-600'>Signup</span></Link></p>

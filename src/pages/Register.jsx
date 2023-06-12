@@ -1,12 +1,11 @@
-import React,{ Fragment, useState } from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import { Link } from "react-router-dom"
+import React,{ Fragment, useState, SyntheticEvent } from 'react'
+import { Link, Navigate } from "react-router-dom"
 const Register = () => {
+  const [redirect, setRedirect] = useState(false)
 
   const [userRegristation, setUserRegistration] = useState({
     email : "",
-    username : ""
+    name : ""
   });
 
   const handleInput = (e) =>{
@@ -17,13 +16,28 @@ const Register = () => {
     setUserRegistration({...userRegristation, [name] : value})
   }
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async(e) =>{
     e.preventDefault();
 
     const newRecord={...userRegristation, id : new Date().getTime().toString()}
-    console.log(newRecord)
+    //console.log(newRecord)
 
-    setUserRegistration({email:"",username:""});
+    const response= await fetch('http://localhost:8000/api/register/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(newRecord)
+
+     })
+
+     const content = await response.json();
+     console.log(content);
+
+    setUserRegistration({email:"",name:""});
+    setRedirect(true);
+  }
+
+  if(redirect){
+    return <Navigate to="/login"/>
   }
 
   return (
@@ -40,12 +54,12 @@ const Register = () => {
                   </span>
                   <input type="email" autoComplete='off' name="email" id="email" className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 max-w-lg" placeholder="Example@gmail.com" value={userRegristation.email} onChange={handleInput} />
                 </div>
-                <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
                 <div className="flex">
                   <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
                   @
                   </span>
-                  <input type="text" autoComplete='off' name="username" id="username" className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 max-w-lg" placeholder="elonmusk" value={userRegristation.username} onChange={handleInput} />
+                  <input type="text" autoComplete='off' name="name" id="name" className="rounded-none rounded-r-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 max-w-lg" placeholder="elonmusk" value={userRegristation.name} onChange={handleInput} />
                 </div>
                 
                 <div className="mt-6">
