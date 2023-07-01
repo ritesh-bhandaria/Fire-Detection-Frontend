@@ -30,8 +30,8 @@ const login = () => {
   return (
     <Fragment>
             <div className="bg-cover">
-            <div class="bg-white dark:bg-gray-900 opacity-80  dark:text-white p-10 m-5 rounded-lg">
-              <div class="text-3xl font-semibold col-start-1 mb-4">Login.</div>
+            <div className="bg-white dark:bg-gray-900 opacity-80  dark:text-white p-10 m-5 rounded-lg">
+              <div className="text-3xl font-semibold col-start-1 mb-4">Login.</div>
             
             <form action="" onSubmit={handleSubmit}>
                   <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Email</label>
