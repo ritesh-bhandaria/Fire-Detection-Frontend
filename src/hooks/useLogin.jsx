@@ -7,15 +7,17 @@ export default function useLogin() {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
     
-    const loginCall = async(email, password)=>{
+    const loginCall = async(name ,email)=>{
         setIsLoading(true);
         setError(null);
 
 
-        const res = await fetch("http://localhost:8000/api/user/login", {
+        console.log(name, email);
+
+        const res = await fetch("http://localhost:8000/api/login/", {
             method:'POST',
             headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({email:email, password:password})
+            body:JSON.stringify({email:email, name:name})
         })
         const json = await res.json();
 
