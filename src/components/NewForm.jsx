@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react'
 
-const NewForm = ({ closeNewModal }) => {
+const NewForm = ({ closeNewModal, creator}) => {
 
   const [newEntry, setNewEntry] = useState({
     alert_name : "",
-    frequency : "",
+    category : "",
     latitude : "",
     longitude : ""
   });
@@ -17,13 +17,23 @@ const NewForm = ({ closeNewModal }) => {
     setNewEntry({...newEntry, [name] : value})
   }
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async(e) =>{
     e.preventDefault();
 
-    const newRecord={...newEntry, id : new Date().getTime().toString()}
+    const newRecord={...newEntry, creator : creator}
     console.log(newRecord)
 
-    setNewEntry({alert_name:"",frequency:"",latitude:"",longitude:""});
+    const response= await fetch('http://localhost:8000/crud/create/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(newRecord)
+
+     })
+
+     const content = await response.json();
+     console.log(content);
+
+    setNewEntry({alert_name:"",category:"",latitude:"",longitude:""});
   }
 
   return (
@@ -63,14 +73,14 @@ const NewForm = ({ closeNewModal }) => {
                   </label>
                 </div>
                 <div class="relative z-0 w-full mb-6 group">
-                  <label for="frequency" class="sr-only">
+                  <label for="category" class="sr-only">
                     Alert Frequency
                   </label>
                   <select
-                    id="frequency"
+                    id="category"
                     class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                    name="frequency"
-                    value={newEntry.frequency} onChange={handleInput}
+                    name="category"
+                    value={newEntry.category} onChange={handleInput}
                   >
                     <option selected>Choose a Frequency</option>
                     <option value="rt">Real Time</option>

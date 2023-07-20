@@ -9,6 +9,9 @@ const Home = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const [alerts, setAlerts] = useState([]);
+  
+  
 
   const logout= async() =>{
     await fetch('http://localhost:8000/api/logout/',{
@@ -36,7 +39,54 @@ const Home = () => {
 
       setName(content.name);
     })();
+
+    const alert_url = "http://localhost:8000/crud/all/?creator="+name;
+
+    (async () => {
+      const response = await fetch(alert_url, {
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      const alertList = await response.json();
+      // console.log(alertList)
+      if(alertList.length > 0){
+        setAlerts(alertList);
+      }
+    })();
+
   });
+
+  
+  // console.log(alert_url);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const response = await fetch(alert_url, {
+  //       headers: { "Content-Type": "application/json" },
+  //       credentials: "include",
+  //     });
+
+  //     const alertList = await response.json();
+  //     // console.log(alertList)
+  //     if(alertList.length > 0){
+  //       setAlerts(alertList);
+  //     }
+  //     toggler=true;
+  //   })();
+  // });
+
+  function deleteAlert({id}){
+    // console.log(id)
+    fetch('http://localhost:8000/crud/item/'+id+'/delete/', {
+      method: 'DELETE'
+    }).then((result)=>{
+      result.json().then((resp)=>{
+        console.warn(resp)
+      })
+    })
+  }
+
 
   return (
     <Fragment>
@@ -60,6 +110,7 @@ const Home = () => {
             </button>
 
             <div class="relative overflow-x-auto shadow-md shadow-red-400 border-2 border-red-400 sm:rounded-lg">
+
               <table class="w-full text-sm text-left text-gray-600 dark:text-gray-500">
                 <thead class="text-xs text-gray-800 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-500">
                   <tr>
@@ -70,7 +121,7 @@ const Home = () => {
                       Name
                     </th>
                     <th scope="col" class="px-6 py-3">
-                      Status
+                      Frequency
                     </th>
                     <th scope="col" class="px-6 py-3">
                       Area of Interest
@@ -84,27 +135,27 @@ const Home = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
+                {
+                  alerts.map((currAlert)=>{
+                    const {id, alert_name, latitude, longitude, category, creator} = currAlert;
+
+                    return(
+                      <>
+                      <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
                     <th
                       scope="row"
                       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      1234
+                      {id}
                     </th>
-                    <td class="px-6 py-4">Sample</td>
+                    <td class="px-6 py-4">{alert_name}</td>
                     <td class="px-6 py-4">
-                      <label class="relative inline-flex items-center mb-5 cursor-pointer">
-                        <input type="checkbox" value="" class="sr-only peer" />
-                        <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                          Active
-                        </span>
-                      </label>
+                        {category}
                     </td>
                     <td class="px-6 py-4">
                       <ul>
-                        <li>Latitude: xxx</li>
-                        <li>Longitude: xxx</li>
+                        <li>Latitude: {latitude}</li>
+                        <li>Longitude: {longitude}</li>
                       </ul>
                     </td>
                     <td class="px-6 py-4 ">
@@ -122,12 +173,17 @@ const Home = () => {
                       
                       <button
                         class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        onClick={() => setShowModal(true)}
+                        // onClick={() => setShowModal(true)}
+                        onClick={()=> deleteAlert({id})}
                       >
                         Delete
                       </button>
                     </td>
                   </tr>
+                      </>
+                    )
+                  })
+                }
                 </tbody>
               </table>
             </div>
@@ -137,7 +193,7 @@ const Home = () => {
 
       {showModal ? (
         <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          {/* <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative 2xl:mt-0 mt-36 2xl:mb-0 md:mt-36 mb-8 mx-auto 2xl:w-[600px] md:w-[600px] w-[300px]">
               <div className="border-0 relative flex flex-col w-full bg-white rounded-lg shadow dark:bg-gray-800">
                 <div className="relative p-10  flex items-center justify-center flex-col">
@@ -179,11 +235,11 @@ const Home = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </>
       ) : null}
       {showEditModal && <EditForm closeEditModal={setShowEditModal} />}
-      {showNewModal && <NewForm closeNewModal={setShowNewModal} />}
+      {showNewModal && <NewForm closeNewModal={setShowNewModal} creator={name} />}
     </Fragment>
   );
 };
