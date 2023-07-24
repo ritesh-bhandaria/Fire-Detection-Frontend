@@ -24,12 +24,12 @@ import Landing from "./pages/landing"
 import Login from "./pages/login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "./components/Navbar"
+import Footer from "./components/Footer"
 import NewAlert from "./pages/NewAlert"
 const App = () => {
   return (
-    <div className="flex flex-col h-screen justify-between">
+    <div className="">
       <Router>
       <Navbar />
         <Routes>
