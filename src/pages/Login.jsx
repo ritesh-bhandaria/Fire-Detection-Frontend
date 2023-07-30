@@ -4,34 +4,22 @@ import Footer from '../components/Footer'
 import { Link, useNavigate } from "react-router-dom"
 import useLogin from '../hooks/useLogin'
 import axios from 'axios'
-const login = () => {
-  const [redirect, setRedirect] = useState(false)
-  const navigate = useNavigate()
+import { Login } from '../redux/userRedux/apiCalls'
+import { useDispatch } from 'react-redux'
 
+const login = () => {
+  const navigate = useNavigate()
   const {loginCall, error, isLoading} = useLogin();
 
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
+  const dispatch = useDispatch()
 
   const handleSubmit = async(e) =>{
     e.preventDefault();
-    try {
-      await axios.post("http://localhost:5000/api/auth/login",{email,password}).then((res)=>{
-        console.log(res.data)
-        if(res.data.status) navigate('/home')
-      })
-    } catch (error) {
-
-      console.log(error)
-      
-    }
-
+    console.log("first")
+    dispatch(Login(email,password))
   } 
-
-  if(redirect){
-    return <Navigate to="/home"/>
-  }
-
 
   return (
     <Fragment>
