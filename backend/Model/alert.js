@@ -5,6 +5,7 @@ const alertSchema  = new mongoose.Schema({
     creator:{type:String,require:true},
     latitutde:{type:Number, require:true},
     longitude:{type:Number, require:true},
+    eventDate:{type:Date},
     frequency:{type:Number}
 })
 

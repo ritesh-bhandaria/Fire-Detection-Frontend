@@ -3,21 +3,13 @@ const app = express()
 const mongoose = require("mongoose")
 const dotenv = require('dotenv')
 const cors = require("cors");
+const cookieParser = require('cookie-parser')
 dotenv.config();
 
 app.use(cors('*'))
-// app.use(cors({
-//     origin: 'https://netflix-video-stream.vercel.app',
-//     methods:"GET,POST,PUT,DELETE",
-//     credentials: true
-// }));
+app.use(cookieParser())
 
 const authRouter = require("./routes/auth")
-// const userRoute = require('./routes/users')
-// const movieRoute = require('./routes/movies')
-// const webRoute = require('./routes/webSeries')
-// const listRoute = require('./routes/list')
-// const googleAuthRoute = require('./routes/googleAuth')
 
 
 mongoose.set('strictQuery', true);
