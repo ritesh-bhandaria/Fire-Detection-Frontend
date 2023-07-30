@@ -18,7 +18,6 @@ const Landing = () => {
         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos id ex cumque, omnis similique, quia eaque repudiandae consectetur minus officia dolores? Distinctio fuga autem vitae voluptatibus, molestiae unde eligendi illum!</p>
       </div>
       </div>
-      
     </Fragment>
   )
 }
