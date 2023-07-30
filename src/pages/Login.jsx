@@ -10,8 +10,8 @@ const login = () => {
 
   const {loginCall, error, isLoading} = useLogin();
 
-  const [password, setPassword] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleSubmit = async(e) =>{
     e.preventDefault();

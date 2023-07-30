@@ -14,7 +14,7 @@ const Home = () => {
   
 
   const logout= async() =>{
-    await fetch('http://localhost:8000/api/logout/',{
+    await fetch('http://localhost:5000/api/logout/',{
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       credentials: 'include',
@@ -30,7 +30,7 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("http://localhost:8000/api/user/", {
+      const response = await fetch("http://localhost:5000/api/user/", {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
       });
@@ -40,7 +40,7 @@ const Home = () => {
       setName(content.name);
     })();
 
-    const alert_url = "http://localhost:8000/crud/all/?creator="+name;
+    const alert_url = "http://localhost:5000/crud/all/?creator="+name;
 
     (async () => {
       const response = await fetch(alert_url, {
@@ -78,7 +78,7 @@ const Home = () => {
 
   function deleteAlert({id}){
     // console.log(id)
-    fetch('http://localhost:8000/crud/item/'+id+'/delete/', {
+    fetch('http://localhost:5000/crud/item/'+id+'/delete/', {
       method: 'DELETE'
     }).then((result)=>{
       result.json().then((resp)=>{
