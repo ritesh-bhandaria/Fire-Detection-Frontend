@@ -1,27 +1,33 @@
-import { LOGIN_FAILURE, LOGIN_START, LOGIN_SUCCESS } from "./userAcion";
+import { LOGIN_FAILURE, LOGIN_START, LOGIN_SUCCESS, LOGOUT_SUCCESS } from "./userAcion";
 
 const INITIAL_STATE = {
     user: localStorage.getItem('user') || null,
-    isError:false,
-    isFetching:false
+    isError: false,
+    isFetching: false
 }
-const UserReducer = (state=INITIAL_STATE,action)=>{
+const UserReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case LOGIN_START:
             return {
                 ...state,
-                isFetching:true
+                isFetching: true
             }
         case LOGIN_SUCCESS:
             return {
-                user:action.payload,
-                isFetching:false,
-                isError:false
+                user: action.payload,
+                isFetching: false,
+                isError: false
             }
         case LOGIN_FAILURE:
             return {
                 ...state,
-                isError:true
+                isError: true
+            }
+        case LOGOUT_SUCCESS:
+            return {
+                user: null,
+                isError:false,
+                isFetching:false
             }
         default:
             return state

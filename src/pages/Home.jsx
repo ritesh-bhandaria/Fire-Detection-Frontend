@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import EditForm from "../components/EditForm";
 import NewForm from "../components/NewForm";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  const [name, setName] = useState("");
+  const user = useSelector(state=>state.user.user)
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
@@ -12,20 +13,16 @@ const Home = () => {
   const [alerts, setAlerts] = useState([]);
   const navigate = useNavigate();
 
-  const logout= async() =>{
-    localStorage.getItem('user') && localStorage.removeItem('user')
-    navigate('/');
-  }
-
   return (
     <Fragment>
       <div>
         <div className="bg-white dark:bg-gray-900 opacity-80   dark:text-white p-10 m-5 rounded-lg">
-          <div className="mb-8"><span className="text-3xl font-semibold mb-8">
-            {name ? "Fire alerts for " + name : "you are not logged in"}
-          </span>
-          <button type="button" className="font-medium text-blue-600 dark:text-blue-500 hover:underline float-right" onClick={logout}>Logout</button></div>
-          
+          <div className="mb-8">
+            <span className="text-3xl font-semibold mb-8">
+              {user && `Welcome ${JSON.parse(user).username}`}
+            </span>
+          </div>
+
           <div>
             <button
               type="button"
@@ -39,7 +36,6 @@ const Home = () => {
             </button>
 
             <div className="relative overflow-x-auto shadow-md shadow-red-400 border-2 border-red-400 sm:rounded-lg">
-
               <table className="w-full text-sm text-left text-gray-600 dark:text-gray-500">
                 <thead className="text-xs text-gray-800 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-500">
                   <tr>
@@ -64,55 +60,56 @@ const Home = () => {
                   </tr>
                 </thead>
                 <tbody>
-                {
-                  alerts.map((currAlert)=>{
-                    const {id, alert_name, latitude, longitude, category, creator} = currAlert;
+                  {alerts.map((currAlert) => {
+                    const {
+                      id,
+                      alert_name,
+                      latitude,
+                      longitude,
+                      category,
+                      creator,
+                    } = currAlert;
 
-                    return(
+                    return (
                       <>
-                      <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {id}
-                    </th>
-                    <td className="px-6 py-4">{alert_name}</td>
-                    <td className="px-6 py-4">
-                        {category}
-                    </td>
-                    <td className="px-6 py-4">
-                      <ul>
-                        <li>Latitude: {latitude}</li>
-                        <li>Longitude: {longitude}</li>
-                      </ul>
-                    </td>
-                    <td className="px-6 py-4 ">
-                     
-                      <button
-                        className="editform font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        onClick={() => {
-                          setShowEditModal(true);
-                        }}
-                      >
-                        Edit
-                      </button>
-                    </td>
-                    <td className="px-6 py-4">
-                      
-                      <button
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        // onClick={() => setShowModal(true)}
-                        onClick={()=> deleteAlert({id})}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
+                        <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <th
+                            scope="row"
+                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {id}
+                          </th>
+                          <td className="px-6 py-4">{alert_name}</td>
+                          <td className="px-6 py-4">{category}</td>
+                          <td className="px-6 py-4">
+                            <ul>
+                              <li>Latitude: {latitude}</li>
+                              <li>Longitude: {longitude}</li>
+                            </ul>
+                          </td>
+                          <td className="px-6 py-4 ">
+                            <button
+                              className="editform font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                              onClick={() => {
+                                setShowEditModal(true);
+                              }}
+                            >
+                              Edit
+                            </button>
+                          </td>
+                          <td className="px-6 py-4">
+                            <button
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                              // onClick={() => setShowModal(true)}
+                              onClick={() => deleteAlert({ id })}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
                       </>
-                    )
-                  })
-                }
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -120,7 +117,9 @@ const Home = () => {
         </div>
       </div>
       {showEditModal && <EditForm closeEditModal={setShowEditModal} />}
-      {showNewModal && <NewForm closeNewModal={setShowNewModal} creator={name} />}
+      {showNewModal && (
+        <NewForm closeNewModal={setShowNewModal} creator={name} />
+      )}
     </Fragment>
   );
 };

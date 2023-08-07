@@ -1,6 +1,6 @@
 import { loginStart, loginSuccess, loginFailure } from "./userAcion"
 
-export const Login = ({email,password})=>{
+export const handleLogin = ({email,password})=>{
     return async (dispatch)=>{
         try {
             dispatch(loginStart())

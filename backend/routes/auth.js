@@ -13,7 +13,6 @@ router.get('/test',verifyToken,(req,res)=>{
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email })
-        console.log(user);
         if (!user) {
             return res.status(401).send({
                 status:false,
