@@ -13,7 +13,6 @@ router.get('/test',verifyToken,(req,res)=>{
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email })
-        console.log(user);
         if (!user) {
             return res.status(401).send({
                 status:false,
@@ -29,7 +28,7 @@ router.post('/login', async (req, res) => {
             process.env.Secret_key,
             { expiresIn: "5d" }
         )
-        const { password, ...info } = user
+        const { password, ...info } = user._doc
         bcrypt.compare(req.body.password, user.password).then((result)=>{
             result ? 
             res

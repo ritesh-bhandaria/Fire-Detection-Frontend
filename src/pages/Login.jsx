@@ -4,14 +4,11 @@ import Footer from '../components/Footer'
 import { Link, useNavigate } from "react-router-dom"
 import useLogin from '../hooks/useLogin'
 import axios from 'axios'
-import { Login } from '../redux/userRedux/apiCalls'
 import { useDispatch } from 'react-redux'
 import { loginFailure, loginStart, loginSuccess } from '../redux/userRedux/userAcion'
 
-const login = () => {
+const Login = () => {
   const navigate = useNavigate()
-  const {loginCall, error, isLoading} = useLogin();
-
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const dispatch = useDispatch()
@@ -21,7 +18,8 @@ const login = () => {
     try {
       dispatch(loginStart())
           const data = await axios.post("http://localhost:5000/api/auth/login",{email,password}).then((res)=>res.data)
-          localStorage.setItem('user',JSON.stringify(data._doc))
+          console.log(data);
+          localStorage.setItem('user',JSON.stringify(data))
           dispatch(loginSuccess(data));
           navigate('/home')
   } catch (error) {
@@ -69,4 +67,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login

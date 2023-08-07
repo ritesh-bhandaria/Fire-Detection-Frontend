@@ -11,7 +11,7 @@ const EditForm = ({ closeEditModal, AlertId }) => {
   useEffect(()=>{
     if(userdata)
     {
-      setUser(JSON.parse(userdata.user))
+      setUser(userdata)
     }
   }, [userdata])
 

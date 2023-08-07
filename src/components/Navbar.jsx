@@ -1,11 +1,20 @@
-import React, { Fragment, useState } from 'react';
-import { Link } from "react-router-dom";
-import { useEffect } from 'react';
-import useLogout from '../hooks/useLogout';
+import React, { Fragment, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "../redux/userRedux/userAcion";
 
 const Navbar = () => {
-  const { logoutCall } = useLogout();
+  const user = useSelector(state=>state.user.user)
   const [showLogin, setShowLogin] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const logout = async () => {
+    localStorage.getItem("user") && localStorage.removeItem("user");
+    dispatch(logoutSuccess());
+    navigate("/");
+  };
+
   return (
     <Fragment>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 z-50 sticky top-0 left-0 w-full">
@@ -23,23 +32,24 @@ const Navbar = () => {
             </span>
           </Link>
           <div className="flex items-center">
-            <Link to="/login">
-              <span
-                href="#"
-                className="text-sm  text-blue-600 dark:text-blue-500 hover:underline"
+            {user ? (
+              <button
+                type="button"
+                className="font-medium text-blue-600 dark:text-blue-500 hover:underline float-right"
+                onClick={logout}
               >
-                Login
-              </span>
-            </Link>
-            <p className="text-sm  text-blue-600 dark:text-blue-500 m-2"> | </p>
-            <Link to="/signup">
-              <span
-                href="#"
-                className="text-sm  text-blue-600 dark:text-blue-500 hover:underline"
-              >
-                Signup
-              </span>
-            </Link>
+                Logout
+              </button>
+            ) : (
+              <Link to="/login">
+                <span
+                  href="#"
+                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline float-right"
+                >
+                  Login
+                </span>
+              </Link>
+            )}
           </div>
         </div>
       </nav>
