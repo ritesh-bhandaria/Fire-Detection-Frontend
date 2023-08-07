@@ -26,7 +26,7 @@ router.post('/create', async (req, res)=>{
 
         const data = await alertData.save()
         console.log(data)
-        res.status(200).json("created successfullly");
+        res.status(200).json(data._id);
         
 
     }catch(err)

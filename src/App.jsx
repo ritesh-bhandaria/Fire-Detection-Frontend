@@ -8,6 +8,7 @@ import Footer from "./components/Footer"
 import NewAlert from "./pages/NewAlert"
 import {useSelector} from 'react-redux'
 import { useEffect } from "react";
+import Alert from "./pages/Alert";
 
 const App = () => {
   const user = useSelector(state=>state.user)
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/signup" element={<Register />} />
           <Route path="/home" element={user.user ? <Home /> : <Navigate replace to={'/login'} />} />
           <Route path="/newAlert" element={<NewAlert/>}/>
+          <Route path="/alert/:alertId" element={<Alert/>}/>
         </Routes>
         <Footer />
       </Router>

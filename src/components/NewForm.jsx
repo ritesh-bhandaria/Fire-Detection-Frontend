@@ -1,39 +1,52 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
+import axios from 'axios';
+import NewAlert from '../pages/NewAlert';
+import { useSelector } from 'react-redux'
+
 
 const NewForm = ({ closeNewModal, creator}) => {
 
+  const userdata = useSelector(state => state.user)
+  const [user, setUser] = useState({});
+
+  useEffect(()=>{
+    if(userdata)
+    {
+      setUser(JSON.parse(userdata.user))
+    }
+  },[userdata])
+
   const [newEntry, setNewEntry] = useState({
-    alert_name : "",
-    category : "",
+    alertName : "",
     latitude : "",
-    longitude : ""
+    longitude : "",
+    frequency:""
   });
 
   const handleInput = (e) =>{
     const name = e.target.name
     const value= e.target.value
-    //console.log(name,value)
+    // console.log(name,value)
 
     setNewEntry({...newEntry, [name] : value})
   }
 
+  useEffect(()=>{
+    setNewEntry({...newEntry, creator:user._id})
+  },[user])
+
   const handleSubmit = async(e) =>{
-    e.preventDefault();
-
-    const newRecord={...newEntry, creator : creator}
-    console.log(newRecord)
-
-    const response= await fetch('http://localhost:8000/crud/create/', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(newRecord)
-
-     })
-
-     const content = await response.json();
-     console.log(content);
-
-    setNewEntry({alert_name:"",category:"",latitude:"",longitude:""});
+    e.preventDefault(); 
+    // console.log(newEntry)
+    console.log(newEntry);
+    try{
+      const res = await axios.post('http://localhost:5000/api/alert/create', newEntry)
+      console.log(res.data);
+      window.location.reload()
+    }catch(err)
+    {
+      console.log(err);
+    }
   }
 
   return (
@@ -58,32 +71,31 @@ const NewForm = ({ closeNewModal, creator}) => {
                 <div className="relative z-0 w-full mb-6 group">
                   <input
                     type="text"
-                    name="alert_name"
-                    id="alert_name"
+                    name="alertName"
+                    id="alertName"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
-                    value={newEntry.alert_name} onChange={handleInput}
+                    value={newEntry.alertName} onChange={handleInput}
                     required
                   />
                   <label
-                    for="alert_name"
+                    htmlFor="alertName"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Alert name
                   </label>
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
-                  <label for="category" className="sr-only">
+                  <label htmlFor="frequency" className="sr-only">
                     Alert Frequency
                   </label>
                   <select
-                    id="category"
+                    id="frequency"
                     className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                    name="category"
-                    value={newEntry.category} onChange={handleInput}
+                    name="frequency"
+                    value={newEntry.frequency} onChange={handleInput}
                   >
-                    <option selected>Choose a Frequency</option>
-                    <option value="rt">Real Time</option>
+                    <option value="" disabled>Choose a Frequency</option>
                     <option value="d">Daily</option>
                     <option value="w">Weekly</option>
                     <option value="m">Monthly</option>
@@ -105,7 +117,7 @@ const NewForm = ({ closeNewModal, creator}) => {
                     />
 
                     <label
-                      for="latitude"
+                      htmlFor="latitude"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Latitude
@@ -122,7 +134,7 @@ const NewForm = ({ closeNewModal, creator}) => {
                       required
                     />
                     <label
-                      for="longitude"
+                      htmlFor="longitude"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Longitude
