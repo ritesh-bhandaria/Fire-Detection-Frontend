@@ -28,12 +28,10 @@ router.post('/login', async (req, res) => {
             process.env.Secret_key,
             { expiresIn: "5d" }
         )
-        const { password, ...info } = user
+        const { password, ...info } = user._doc
         bcrypt.compare(req.body.password, user.password).then((result)=>{
             result ? 
-            res
-            .cookie('access_token',accessToken,{'maxAge':24*60*60*1000,httpOnly:true})
-            .status(200).json({ ...info,status:true,accessToken }) 
+            res.status(200).send(JSON.stringify({ ...info,status:true,accessToken })) 
             :
             res.status(401).json({status:false,message:"Wrong password or Username"})
         })

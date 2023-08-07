@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import EditForm from "../components/EditForm";
 import NewForm from "../components/NewForm";
 import { useSelector } from "react-redux";
@@ -9,9 +9,10 @@ const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
-  const [redirect, setRedirect] = useState(false);
   const [alerts, setAlerts] = useState([]);
   const navigate = useNavigate();
+
+  // console.log(JSON.stringify(user))
 
   return (
     <Fragment>
@@ -19,7 +20,7 @@ const Home = () => {
         <div className="bg-white dark:bg-gray-900 opacity-80   dark:text-white p-10 m-5 rounded-lg">
           <div className="mb-8">
             <span className="text-3xl font-semibold mb-8">
-              {user && `Welcome ${JSON.parse(user).username}`}
+              {user && `Welcome ${user.username}`}
             </span>
           </div>
 

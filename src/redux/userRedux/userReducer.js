@@ -1,10 +1,13 @@
 import { LOGIN_FAILURE, LOGIN_START, LOGIN_SUCCESS, LOGOUT_SUCCESS } from "./userAcion";
 
 const INITIAL_STATE = {
-    user: localStorage.getItem('user') || null,
+    user: JSON.parse(localStorage.getItem('user')) || null,
     isError: false,
     isFetching: false
 }
+
+console.log(INITIAL_STATE)
+
 const UserReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case LOGIN_START:

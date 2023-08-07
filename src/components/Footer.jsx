@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 const Footer = () => {
   return (
     <Fragment>
-    <footer className="bg-white mt-auto dark:bg-gray-900">
+    <footer className="bg-white mt-auto dark:bg-gray-900 relative bottom-0 w-[100%]">
       <footer className="bg-white  dark:bg-gray-900 bottom-0 left-0">
         <div className="mx-auto  w-full p-10 py-6 lg:py-8">
           <div className="md:flex md:justify-between">
@@ -18,24 +18,48 @@ const Footer = () => {
                       Flowbite
                     </a>
                   </li>
-                  <li>
+                  <li className="mb-4">
                     <a href="https://tailwindcss.com/" className="hover:underline">
                       Tailwind CSS
+                    </a>
+                  </li>
+                  <li className="mb-4">
+                    <a href="https://react.dev/" className="hover:underline">
+                      React JS
+                    </a>
+                  </li>
+                  <li className="mb-4">
+                    <a href="https://nodejs.org/en" className="hover:underline">
+                      Node JS
+                    </a>
+                  </li>
+                  <li className="mb-4">
+                    <a href="https://www.mongodb.com/" className="hover:underline">
+                      Mongo DB
                     </a>
                   </li>
                 </ul>
               </div>
               <div>
                 <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
-                  Follow us
+                  Leran more about our project 
                 </h2>
                 <ul className="text-gray-600 dark:text-gray-400 font-medium">
                   <li className="mb-4">
                     <a
-                      href="https://github.com/themesberg/flowbite"
+                      href="https://github.com/ritesh-bhandaria/Fire-Detection-Frontend"
                       className="hover:underline "
                     >
                       Github
+                    </a>
+                  </li>
+
+                  <li className="mb-4">
+                    <a
+                      href="https://docs.google.com/document/d/1YX4J8Q_nE6xLZ0gOi78lyOgeVtj_oRCYBY15v50nLnU/edit?usp=sharing"
+                      className="hover:underline "
+                    >
+                      Project report
                     </a>
                   </li>
                 </ul>
@@ -46,14 +70,14 @@ const Footer = () => {
           <div className="sm:flex sm:items-center sm:justify-between">
             <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
               © 2023{" "}
-              <a href="https://flowbite.com/" className="hover:underline">
+              <a href="https://github.com/ritesh-bhandaria/Fire-Detection-Frontend" className="hover:underline">
                 PR 301
               </a>
               . All Rights Reserved.
             </span>
             <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
               <a
-                href="#"
+                href="https://github.com/ritesh-bhandaria/Fire-Detection-Frontend"
                 className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
               >
                 <svg
