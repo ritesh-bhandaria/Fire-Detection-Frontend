@@ -1,23 +1,24 @@
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { loginStart, loginSuccess, loginFailure } from "../redux/userRedux/userAcion"
 
 export default function useLogin() {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
     
-    const loginCall = async(name ,email)=>{
+    const loginCall = async(email ,password)=>{
         setIsLoading(true);
         setError(null);
 
+        
+        console.log(email, password);
 
-        console.log(name, email);
-
-        const res = await fetch("http://localhost:8000/api/login/", {
+        const res = await fetch("http://localhost:5000/api/auth/login/", {
             method:'POST',
             headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({email:email, name:name})
+            body:JSON.stringify({email:email, password:password})
         })
         const json = await res.json();
 

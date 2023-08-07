@@ -10,6 +10,7 @@ app.use(cors('*'))
 app.use(cookieParser())
 
 const authRouter = require("./routes/auth")
+const alertRouter = require('./routes/Alert')
 
 
 mongoose.set('strictQuery', true);
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGO_URL)
 app.use(express.json())
 
 app.use('/api/auth', authRouter)
+app.use('/api/alert', alertRouter)
 
 
 app.get('/', async (req, res) => {
