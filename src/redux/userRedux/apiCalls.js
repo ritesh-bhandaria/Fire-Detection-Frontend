@@ -5,7 +5,6 @@ export const Login = ({email,password})=>{
         try {
             dispatch(loginStart())
                 const data = await axios.post("http://localhost:5000/api/auth/login",{email,password}).then((res)=>res.data)
-                console.log(data);
                 dispatch(loginSuccess(data));
                 navigate('/home')
         } catch (error) {

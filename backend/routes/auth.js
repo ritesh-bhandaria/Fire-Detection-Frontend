@@ -6,6 +6,7 @@ const verifyToken = require("../verifyToken");
 require('dotenv').config()
 
 router.get('/test',verifyToken,(req,res)=>{
+    console.log(req.user);
     res.status(200).send(req.user)
 })
 

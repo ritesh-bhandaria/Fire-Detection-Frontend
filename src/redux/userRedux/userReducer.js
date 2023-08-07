@@ -1,7 +1,7 @@
 import { LOGIN_FAILURE, LOGIN_START, LOGIN_SUCCESS } from "./userAcion";
 
 const INITIAL_STATE = {
-    user: null,
+    user: localStorage.getItem('user') || null,
     isError:false,
     isFetching:false
 }
@@ -16,7 +16,7 @@ const UserReducer = (state=INITIAL_STATE,action)=>{
             return {
                 user:action.payload,
                 isFetching:false,
-                isError
+                isError:false
             }
         case LOGIN_FAILURE:
             return {

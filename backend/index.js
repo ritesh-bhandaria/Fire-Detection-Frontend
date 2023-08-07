@@ -6,7 +6,10 @@ const cors = require("cors");
 const cookieParser = require('cookie-parser')
 dotenv.config();
 
-app.use(cors('*'))
+app.use(cors({
+    origin: 'http://localhost:5173',
+  }));
+  
 app.use(cookieParser())
 
 const authRouter = require("./routes/auth")

@@ -2,6 +2,10 @@ import React, { Fragment } from 'react'
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
 import { Link } from "react-router-dom"
+
+import Cookies from 'js-cookie'
+
+
 const Landing = () => {
   return (
     <Fragment>
