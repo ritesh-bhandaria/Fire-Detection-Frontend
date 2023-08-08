@@ -12,7 +12,7 @@ router.post('/create', async (req, res) => {
 
     // res.status(200).json("answer");
     const alertResult = new FireResult({
-        alertId:req.body.alertId,
+        alertId:req.body.alertId,   
         result: await getFireResult({top_long, top_lat, bot_long, bot_lat, date})
     })
     try {

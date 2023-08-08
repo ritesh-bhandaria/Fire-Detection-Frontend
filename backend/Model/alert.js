@@ -9,7 +9,7 @@ const alertSchema  = new mongoose.Schema({
     longitude_bot:{type:Number, require:true},
     frequency:{type:String, require:true},
     status:{type:String},
-    nextDate :{type:Date}
+    nextDate:{type:Date, default:new Date()}
 }, {
     timestamps:true,
 })

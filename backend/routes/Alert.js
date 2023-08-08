@@ -100,7 +100,9 @@ router.get('/home', (req, res) => {
     res.status(200).send("received");
 })
 
-router.post('/create', async (req, res) => {
+// create new alert
+// create data
+router.post('/create', async (req, res)=>{
     const alertName = req.body.alertName
     const creatorId = req.body.creator
     const lat_top = req.body.latitude_top
