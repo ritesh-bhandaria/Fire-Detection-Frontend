@@ -12,14 +12,18 @@ router.get('/home', (req, res)=>{
 router.post('/create', async (req, res)=>{
     const alertName = req.body.alertName
     const creatorId = req.body.creator
-    const lat = req.body.latitude
-    const long = req.body.longitude
+    const lat_top = req.body.latitude_top
+    const long_top = req.body.longitude_top
+    const lat_bot = req.body.latitude_bot
+    const long_bot = req.body.longitude_bot
     const freq = req.body.frequency
     const alertData = new Alert({
         alertName:alertName,
         creator:creatorId,
-        latitutde:lat,
-        longitude:long,
+        latitude_top:lat_top,
+        longitude_top:long_top,
+        latitude_bot:lat_bot,
+        longitude_bot:long_bot,
         frequency:freq
     })
     try{
@@ -48,6 +52,24 @@ router.get('/:creatorId', async(req, res)=>{
         }
         else{
             res.status(200).json("No alert created")
+        }
+    }catch(err)
+    {
+        res.status(400).json(err)
+    }
+})
+
+router.get('/id/:alertId', async(req, res)=>{
+    // const creator = req.params.creatorId
+    const alertId = req.params.alertId
+    try{
+        const alertList = await Alert.findById(alertId);
+        if(alertList)
+        {
+            res.status(200).json(alertList);
+        }
+        else{
+            res.status(200).json("No alert present")
         }
     }catch(err)
     {

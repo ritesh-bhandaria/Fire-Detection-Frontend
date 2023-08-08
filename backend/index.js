@@ -12,6 +12,7 @@ app.use(cookieParser())
 
 const authRouter = require("./routes/auth")
 const alertRouter = require('./routes/Alert')
+const fireAlertRouter = require('./routes/fireAlert')
 
 
 mongoose.set('strictQuery', true);
@@ -23,6 +24,7 @@ app.use(express.json())
 
 app.use('/api/auth', authRouter)
 app.use('/api/alert', alertRouter)
+app.use('/api/fireAlert', fireAlertRouter)
 
 
 app.get('/', async (req, res) => {
