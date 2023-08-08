@@ -92,7 +92,7 @@ const Home = () => {
                 <tbody>
                   {alerts.length ? 
                     alerts.map((currAlert) => {
-                      const { _id, alertName, latitude, longitude, frequency } = currAlert;
+                      const { _id, alertName, latitude_top, longitude_top,latitude_bot, longitude_bot, frequency } = currAlert;
                       return (
                     
                           <tr key={_id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -107,8 +107,8 @@ const Home = () => {
                             </td>
                             <td className="px-6 py-4">
                               <ul>
-                                <li>Latitude: {latitude}</li>
-                                <li>Longitude: {longitude}</li>
+                                <li>Latitude: {latitude_top} ,{latitude_bot}</li>
+                                <li>Longitude: {longitude_top}, {longitude_bot}</li>
                               </ul>
                             </td>
                             <td className="px-6 py-4 ">
