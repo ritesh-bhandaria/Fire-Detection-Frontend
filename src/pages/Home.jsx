@@ -1,58 +1,50 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EditForm from "../components/EditForm";
 import NewForm from "../components/NewForm";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const Home = () => {
-  const user = useSelector(state=>state.user.user)
+  const user = useSelector((state) => state.user.user);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
-  const [redirect, setRedirect] = useState(false);
   const [alerts, setAlerts] = useState([]);
   const [createrId, setCreaterId] = useState("");
   const [editAlertId, setEditAlertId] = useState("");
-  // const [deleteAlertId, setDeleteAlertId] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    
-    // setCreaterId(user._id)
-    console.log(user);
-    
     const fetchAlerts = async () => {
-      // console.log(createrId)
       try {
-        if(user)
-        {
-          const response = await axios.get('http://localhost:5000/api/alert/' + user._id)
-          setAlerts(response.data)
+        if (user) {
+          const response = await axios.get(
+            "http://localhost:5000/api/alert/" + user._id
+          );
+          setAlerts(response.data);
           console.log(response);
         }
       } catch (err) {
         console.log(err);
-        // console.log("error")
       }
-    }
+    };
     fetchAlerts();
-  }, [user])
+  }, [user]);
 
-  const deleteAlert = async(id)=>{
-    // console.log(id);
-    try{
-      if(id)
-      {
-        const response = await axios.delete('http://localhost:5000/api/alert/' +id)
+  const deleteAlert = async (id) => {
+    try {
+      if (id) {
+        const response = await axios.delete(
+          "http://localhost:5000/api/alert/" + id
+        );
         console.log(response.data);
         window.location.reload();
       }
-    }catch(err)
-    {
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   return (
     <Fragment>
@@ -60,7 +52,7 @@ const Home = () => {
         <div className="bg-white dark:bg-gray-900 opacity-80   dark:text-white p-10 m-5 rounded-lg">
           <div className="mb-8">
             <span className="text-3xl font-semibold mb-8">
-          {user && `Welcome ${user.username}`}
+              {user && `Welcome ${user.username}`}
             </span>
           </div>
 
@@ -80,7 +72,6 @@ const Home = () => {
               <table className="w-full text-sm text-left text-gray-600 dark:text-gray-500">
                 <thead className="text-xs text-gray-800 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-500">
                   <tr>
-              
                     <th scope="col" className="px-6 py-3">
                       Name
                     </th>
@@ -99,26 +90,25 @@ const Home = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {
-                     user && alerts.map((currAlert) => {
-                      const { _id, alertName, latitude_top, longitude_top,latitude_bot, longitude_bot, frequency } = currAlert;
-
+                  {alerts.length ? 
+                    alerts.map((currAlert) => {
+                      const { _id, alertName, latitude, longitude, frequency } = currAlert;
                       return (
                     
                           <tr key={_id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
                       
                             <td className="px-6 py-4">
-                              <Link to={`/alert/${_id}`}>
-                                {alertName}
-                              </Link>
+                            <Link to={`/alert/${_id}`}>
+                              {alertName}
+                            </Link>
                             </td>
                             <td className="px-6 py-4">
                               {frequency }
                             </td>
                             <td className="px-6 py-4">
                               <ul>
-                                <li>Latitude: {latitude_top} ,{latitude_bot}</li>
-                                <li>Longitude: {longitude_top}, {longitude_bot}</li>
+                                <li>Latitude: {latitude}</li>
+                                <li>Longitude: {longitude}</li>
                               </ul>
                             </td>
                             <td className="px-6 py-4 ">
@@ -130,23 +120,22 @@ const Home = () => {
                                   setEditAlertId(_id);
                                 }}
                               >
-                                Edit
-                              </button>
-                            </td>
-                            <td className="px-6 py-4">
-
-                              <button
-                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                // onClick={() => setShowModal(true)}
-                                onClick={() => deleteAlert(_id)}
+                              Edit
+                            </button>
+                          </td>
+                          <td className="px-6 py-4">
+                            <button
+                              className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                              // onClick={() => setShowModal(true)}
+                              onClick={() => deleteAlert(_id)}
                               >
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
-              
-                      )
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      );
                     })
+                  : <></>
                   }
                 </tbody>
               </table>
@@ -154,8 +143,12 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {showEditModal && <EditForm closeEditModal={setShowEditModal} AlertId={editAlertId} />}
-      {showNewModal && <NewForm closeNewModal={setShowNewModal} creator={name} />}
+      {showEditModal && (
+        <EditForm closeEditModal={setShowEditModal} AlertId={editAlertId} />
+      )}
+      {showNewModal && (
+        <NewForm closeNewModal={setShowNewModal} creator={createrId} />
+      )}
     </Fragment>
   );
 };

@@ -49,7 +49,7 @@ router.get('/:creatorId', async(req, res)=>{
             res.status(200).json(alertList);
         }
         else{
-            res.status(200).json("No alert created")
+            res.status(200).json([])
         }
     }catch(err)
     {

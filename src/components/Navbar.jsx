@@ -5,7 +5,6 @@ import { logoutSuccess } from "../redux/userRedux/userAcion";
 
 const Navbar = () => {
   const user = useSelector(state=>state.user.user)
-  const [showLogin, setShowLogin] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   

@@ -5,6 +5,9 @@ const INITIAL_STATE = {
     isError: false,
     isFetching: false
 }
+
+console.log(INITIAL_STATE)
+
 const UserReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case LOGIN_START:
