@@ -1,4 +1,17 @@
 const jwt = require('jsonwebtoken')
+const axios = require('axios')
+
+const getFireResult = async({top_long, top_lat, bot_long, bot_lat, date})=>{
+    try{
+
+        const result = await axios.post('http://192.168.107.65:6000/predict', {top_long, top_lat, bot_long, bot_lat, date})
+        return result.data
+    }catch(err)
+    {
+        console.log(err);
+    }
+    return []
+}
 
 const verifyToken = (req,res,next)=>{
     const token = req.cookies.access_token;
@@ -31,4 +44,4 @@ const verifyToken = (req,res,next)=>{
 
 }
 
-module.exports = verifyToken
+module.exports = {verifyToken,getFireResult}

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const User = require("../Model/user");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
-const verifyToken = require("../verifyToken");
+const { verifyToken } = require("../verifyToken");
 require('dotenv').config()
 
 router.get('/test',verifyToken,(req,res)=>{
