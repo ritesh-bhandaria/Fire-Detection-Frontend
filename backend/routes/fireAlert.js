@@ -6,12 +6,12 @@ const axios = require('axios')
 router.post('/create', async (req, res) => {
     const {top_long, top_lat, bot_long, bot_lat, date} = req.body
     // const ans = await getFireResult({top_long, top_lat, bot_long, bot_lat, date})
-    const ans = {'43-52':1}
+    // const ans = {'43-52':1}
     // console.log(ans);
 
     // res.status(200).json("answer");
     const alertResult = new FireResult({
-        alertId:req.body.alertId,
+        alertId:req.body.alertId,   
         result: await getFireResult({top_long, top_lat, bot_long, bot_lat, date})
     })
     try {

@@ -6,7 +6,6 @@ require('dotenv').config()
 router.get('/home', (req, res)=>{
     res.status(200).send("received");
 })
-
 // create new alert
 // create data
 router.post('/create', async (req, res)=>{
@@ -27,7 +26,6 @@ router.post('/create', async (req, res)=>{
         frequency:freq
     })
     try{
-
         const data = await alertData.save()
         console.log(data)
         res.status(200).json(data._id);
