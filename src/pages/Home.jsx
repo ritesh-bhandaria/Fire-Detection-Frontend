@@ -94,27 +94,31 @@ const Home = () => {
                     alerts.map((currAlert) => {
                       const { _id, alertName, latitude, longitude, frequency } = currAlert;
                       return (
-                        <tr
-                        key={_id}
-                        className="bg-white border-b dark:bg-gray-900 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        >
-                          <td className="px-6 py-4">
-                            <Link to={`/alert/${_id}`}>{alertName}</Link>
-                          </td>
-                          <td className="px-6 py-4">{frequency}</td>
-                          <td className="px-6 py-4">
-                            <ul>
-                              <li>Latitude: {latitude}</li>
-                              <li>Longitude: {longitude}</li>
-                            </ul>
-                          </td>
-                          <td className="px-6 py-4 ">
-                            <button
-                              className="editform font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                              onClick={() => {
-                                setShowEditModal(true);
-                                setEditAlertId(_id);
-                              }}
+                    
+                          <tr key={_id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      
+                            <td className="px-6 py-4">
+                            <Link to={`/alert/${_id}`}>
+                              {alertName}
+                            </Link>
+                            </td>
+                            <td className="px-6 py-4">
+                              {frequency }
+                            </td>
+                            <td className="px-6 py-4">
+                              <ul>
+                                <li>Latitude: {latitude}</li>
+                                <li>Longitude: {longitude}</li>
+                              </ul>
+                            </td>
+                            <td className="px-6 py-4 ">
+
+                              <button
+                                className="editform font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                onClick={() => {
+                                  setShowEditModal(true);
+                                  setEditAlertId(_id);
+                                }}
                               >
                               Edit
                             </button>

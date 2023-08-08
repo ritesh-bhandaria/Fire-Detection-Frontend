@@ -12,14 +12,16 @@ const NewForm = ({ closeNewModal, creator}) => {
   useEffect(()=>{
     if(userdata)
     {
-      setUser(JSON.parse(userdata.user))
+      setUser(userdata.user)
     }
   },[userdata])
 
   const [newEntry, setNewEntry] = useState({
     alertName : "",
-    latitude : "",
-    longitude : "",
+    latitude_top : "",
+    longitude_top : "",
+    latitude_bot : "",
+    longitude_bot : "",
     frequency:""
   });
 
@@ -108,36 +110,74 @@ const NewForm = ({ closeNewModal, creator}) => {
                   <div className="relative z-0 w-full mb-6 group">
                     <input
                       type="text"
-                      name="latitude"
-                      id="latitude"
+                      name="latitude_top"
+                      id="latitude_top"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
-                      value={newEntry.latitude} onChange={handleInput}
+                      value={newEntry.latitude_top} onChange={handleInput}
                       required
                     />
 
                     <label
-                      htmlFor="latitude"
+                      htmlFor="latitude_top"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
-                      Latitude
+                      Latitude_top
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
                     <input
                       type="text"
-                      name="longitude"
-                      id="longitude"
+                      name="longitude_top"
+                      id="longitude_top"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
-                      value={newEntry.longitude} onChange={handleInput}
+                      value={newEntry.longitude_top} onChange={handleInput}
                       required
                     />
                     <label
-                      htmlFor="longitude"
+                      htmlFor="longitude_top"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
-                      Longitude
+                      Longitude_top
+                    </label>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 md:gap-6 mt-3">
+                  <div className="relative z-0 w-full mb-6 group">
+                    <input
+                      type="text"
+                      name="latitude_bot"
+                      id="latitude_bot"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      value={newEntry.latitude_bot} onChange={handleInput}
+                      required
+                    />
+
+                    <label
+                      htmlFor="latitude_bot"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      Latitude_bottom
+                    </label>
+                  </div>
+                  <div className="relative z-0 w-full mb-6 group">
+                    <input
+                      type="text"
+                      name="longitude_bot"
+                      id="longitude_bot"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=""
+                      value={newEntry.longitude_bot} onChange={handleInput}
+                      required
+                    />
+                    <label
+                      htmlFor="longitude_bot"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      Longitude_bottom
                     </label>
                   </div>
                 </div>
