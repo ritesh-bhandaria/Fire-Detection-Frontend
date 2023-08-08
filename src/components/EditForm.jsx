@@ -1,6 +1,53 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
-const EditForm = ({ closeEditModal }) => {
+const EditForm = ({ closeEditModal, AlertId }) => {
+
+  // console.log("Selected Alert Id:",AlertId)
+
+  const userdata = useSelector(state=>state.user)
+  const [user, setUser] =useState({})
+  useEffect(()=>{
+    if(userdata)
+    {
+      setUser(userdata)
+    }
+  }, [userdata])
+
+  const [newEntry, setNewEntry] = useState({
+    alertName : "",
+    latitude : "",
+    longitude : "",
+    frequency:""
+  });
+
+  const handleInput = (e) =>{
+    const name = e.target.name
+    const value= e.target.value
+    // console.log(name,value)
+
+    setNewEntry({...newEntry, [name] : value})
+  }
+
+  useEffect(()=>{
+    setNewEntry({...newEntry, creator:user._id})
+  },[user])
+
+  const handleUpdate = async(e)=>{
+    e.preventDefault()
+    // console.log(newEntry)
+    try{
+      const res = await axios.put('http://localhost:5000/api/alert/'+AlertId, newEntry)
+      console.log(res.data);
+      window.location.reload()
+    }catch(err)
+    {
+      console.log(err);
+    }
+  }
+
+
   return (
     <Fragment>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -19,33 +66,36 @@ const EditForm = ({ closeEditModal }) => {
                 Update your alert.
               </div>
 
-              <form>
+              <form onSubmit={handleUpdate}>
                 <div className="relative z-0 w-full mb-6 group">
                   <input
-                    type="email"
-                    name="floating_email"
-                    id="floating_email"
+                    type="text"
+                    name="alertName"
+                    id="alertName"
                     className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder=" "
                     required
+                    value={newEntry.alertName}
+                    onChange={handleInput}
                   />
                   <label
-                    for="floating_email"
+                    htmlFor="alertName"
                     className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Alert name
                   </label>
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
-                  <label for="underline_select" className="sr-only">
+                  <label htmlFor="frequency" className="sr-only">
                     Alert Frequency
                   </label>
                   <select
-                    id="underline_select"
+                    id="frequency"
                     className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                    name="frequency"
+                    value={newEntry.frequency} onChange={handleInput}
                   >
-                    <option selected>Choose a Frequency</option>
-                    <option value="rt">Real Time</option>
+                    <option value="" disabled>Choose a Frequency</option>
                     <option value="d">Daily</option>
                     <option value="w">Weekly</option>
                     <option value="m">Monthly</option>
@@ -58,15 +108,16 @@ const EditForm = ({ closeEditModal }) => {
                   <div className="relative z-0 w-full mb-6 group">
                     <input
                       type="text"
-                      name="floating_first_name"
-                      id="floating_first_name"
+                      name="latitude"
+                      id="latitude"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
+                      value={newEntry.latitude} onChange={handleInput}
                     />
 
                     <label
-                      for="floating_first_name"
+                      htmlFor="latitude"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Latitude
@@ -75,14 +126,15 @@ const EditForm = ({ closeEditModal }) => {
                   <div className="relative z-0 w-full mb-6 group">
                     <input
                       type="text"
-                      name="floating_last_name"
-                      id="floating_last_name"
+                      name="longitude"
+                      id="longitude"
                       className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
+                      value={newEntry.longitude} onChange={handleInput}
                     />
                     <label
-                      for="floating_last_name"
+                      htmlFor="longitude"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Longitude

@@ -1,18 +1,50 @@
 import React, { Fragment, useEffect, useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EditForm from "../components/EditForm";
 import NewForm from "../components/NewForm";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Home = () => {
-  const user = useSelector(state=>state.user.user)
+  const user = useSelector((state) => state.user.user);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
   const [alerts, setAlerts] = useState([]);
+  const [createrId, setCreaterId] = useState("");
+  const [editAlertId, setEditAlertId] = useState("");
   const navigate = useNavigate();
 
-  // console.log(JSON.stringify(user))
+  useEffect(() => {
+    const fetchAlerts = async () => {
+      try {
+        if (user) {
+          const response = await axios.get(
+            "http://localhost:5000/api/alert/" + user._id
+          );
+          setAlerts(response.data);
+          console.log(response);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchAlerts();
+  }, [user]);
+
+  const deleteAlert = async (id) => {
+    try {
+      if (id) {
+        const response = await axios.delete(
+          "http://localhost:5000/api/alert/" + id
+        );
+        console.log(response.data);
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Fragment>
@@ -41,9 +73,6 @@ const Home = () => {
                 <thead className="text-xs text-gray-800 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-500">
                   <tr>
                     <th scope="col" className="px-6 py-3">
-                      Alert id
-                    </th>
-                    <th scope="col" className="px-6 py-3">
                       Name
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -61,27 +90,18 @@ const Home = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {alerts.map((currAlert) => {
-                    const {
-                      id,
-                      alert_name,
-                      latitude,
-                      longitude,
-                      category,
-                      creator,
-                    } = currAlert;
-
-                    return (
-                      <>
-                        <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700">
-                          <th
-                            scope="row"
-                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                          >
-                            {id}
-                          </th>
-                          <td className="px-6 py-4">{alert_name}</td>
-                          <td className="px-6 py-4">{category}</td>
+                  {alerts.length ? 
+                    alerts.map((currAlert) => {
+                      const { _id, alertName, latitude, longitude, frequency } = currAlert;
+                      return (
+                        <tr
+                        key={_id}
+                        className="bg-white border-b dark:bg-gray-900 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        >
+                          <td className="px-6 py-4">
+                            <Link to={`/alert/${_id}`}>{alertName}</Link>
+                          </td>
+                          <td className="px-6 py-4">{frequency}</td>
                           <td className="px-6 py-4">
                             <ul>
                               <li>Latitude: {latitude}</li>
@@ -93,8 +113,9 @@ const Home = () => {
                               className="editform font-medium text-blue-600 dark:text-blue-500 hover:underline"
                               onClick={() => {
                                 setShowEditModal(true);
+                                setEditAlertId(_id);
                               }}
-                            >
+                              >
                               Edit
                             </button>
                           </td>
@@ -102,24 +123,27 @@ const Home = () => {
                             <button
                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                               // onClick={() => setShowModal(true)}
-                              onClick={() => deleteAlert({ id })}
-                            >
+                              onClick={() => deleteAlert(_id)}
+                              >
                               Delete
                             </button>
                           </td>
                         </tr>
-                      </>
-                    );
-                  })}
+                      );
+                    })
+                  : <></>
+                  }
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
-      {showEditModal && <EditForm closeEditModal={setShowEditModal} />}
+      {showEditModal && (
+        <EditForm closeEditModal={setShowEditModal} AlertId={editAlertId} />
+      )}
       {showNewModal && (
-        <NewForm closeNewModal={setShowNewModal} creator={name} />
+        <NewForm closeNewModal={setShowNewModal} creator={createrId} />
       )}
     </Fragment>
   );

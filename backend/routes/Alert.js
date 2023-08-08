@@ -26,7 +26,7 @@ router.post('/create', async (req, res)=>{
 
         const data = await alertData.save()
         console.log(data)
-        res.status(200).json("created successfullly");
+        res.status(200).json(data._id);
         
 
     }catch(err)
@@ -47,7 +47,7 @@ router.get('/:creatorId', async(req, res)=>{
             res.status(200).json(alertList);
         }
         else{
-            res.status(200).json("No alert created")
+            res.status(200).json([])
         }
     }catch(err)
     {

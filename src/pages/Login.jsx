@@ -19,19 +19,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(loginStart());
-      const data = await axios
-        .post("http://localhost:5000/api/auth/login", { email, password })
-        .then((res) => res.data);
-      console.log(data);
-
-      localStorage.setItem("user", JSON.stringify(data));
-      dispatch(loginSuccess(data));
-      navigate("/home");
-    } catch (error) {
-      dispatch(loginFailure());
-    }
-  };
+      dispatch(loginStart())
+          const data = await axios.post("http://localhost:5000/api/auth/login",{email,password}).then((res)=>res.data)
+          localStorage.setItem('user',JSON.stringify(data._doc))
+          dispatch(loginSuccess(data));
+          navigate('/home')
+  } catch (error) {
+      dispatch(loginFailure())
+  }
+  } 
 
   return (
     <Fragment>

@@ -5,7 +5,8 @@ const alertSchema  = new mongoose.Schema({
     creator:{type:String,require:true},
     latitude:{type:Number, require:true},
     longitude:{type:Number, require:true},
-    frequency:{type:Number}
+    frequency:{type:String, require:true},
+    status:{type:String}
 }, {
     timestamps:true,
 })

@@ -7,6 +7,7 @@ import Footer from "./components/Footer"
 import NewAlert from "./pages/NewAlert"
 import {useSelector} from 'react-redux'
 import Login from "./pages/Login";
+import Alert from "./pages/Alert";
 
 const App = () => {
   const user = useSelector(state=>state.user.user)
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/signup" element={<Register />} />
           <Route path="/home" element={user ? <Home /> : <Navigate replace to={'/login'} />} />
           <Route path="/newAlert" element={<NewAlert/>}/>
+          <Route path="/alert/:alertId" element={<Alert/>}/>
         </Routes>
       </div>
         <Footer/>
